@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Precibility - Torn Bookie Tool
+// @name         Precision Probability - Torn Bookie Tool
 // @namespace    https://www.torn.com/
 // @version      6.7.5
 // @description  Precision Probability for Torn Bookie. Injects clean implied probabilities next to team names. Draggable UI. Safe on PC & PDA. 100% local.
