@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Precision Probability - Torn Bookie Tool
 // @namespace    https://www.torn.com/
-// @version      6.7.5
+// @version      6.7.7
 // @description  Precision Probability for Torn Bookie. Injects clean implied probabilities next to team names. Draggable UI. Safe on PC & PDA. 100% local.
 // @author       ZEM [4038551]
 // @match        https://www.torn.com/*
@@ -28,7 +28,7 @@
 (function() {
     'use strict';
 
-    const VERSION = (typeof GM_info !== 'undefined' && GM_info.script && GM_info.script.version) ? GM_info.script.version : '6.7.5';
+    const VERSION = (typeof GM_info !== 'undefined' && GM_info.script && GM_info.script.version) ? GM_info.script.version : '6.7.6';
 
     // Core Settings
     let isEnabled = localStorage.getItem('pb_inline_enabled') !== 'false';
@@ -416,7 +416,6 @@
         if (!isEnabled) document.body.classList.add('pb-hide-inline');
     }
 
-    // Scrub all DOM elements clean before recalculating to strictly prevent duplicates
     function fullReset() {
         document.querySelectorAll('.pb-inline-prob').forEach(el => el.remove());
         if (isEnabled) processBookieRows();
@@ -516,14 +515,6 @@
                 <div class="pb-tab-content" id="pb-tab-dev">
                     <div id="lbl-dev-desc">${t.devDesc}</div>
                     <a href="https://www.torn.com/profiles.php?XID=4038551" target="_blank" class="pb-author-btn" id="lbl-author-btn">${t.authorBtn}</a>
-
-                    <div class="pb-github-box">
-                        <a href="https://github.com/else-ai/TORN-bookie-tool/blob/main/Precision%20Probability.user.js" target="_blank" class="pb-github-link">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                            Source Code on GitHub
-                        </a>
-                    </div>
-
                     <div style="text-align:center; margin-top: 12px; font-size: 10px; opacity: 0.5;">v${VERSION}</div>
                 </div>
             </div>
@@ -551,7 +542,7 @@
             localStorage.setItem('pb_user_lang', currentLang);
             t = translations[currentLang] || translations.en;
             updateUITexts();
-            fullReset(); // Re-render tooltips in new language
+            fullReset(); 
         };
 
         document.getElementById('pb-theme-select').onchange = (e) => {
@@ -580,16 +571,8 @@
                 else { onBtn.classList.remove('active'); offBtn.classList.add('active'); }
             };
 
-            onBtn.onclick = () => {
-                if (!conditionCheck()) {
-                    setActive(true); callback(true); fullReset();
-                }
-            };
-            offBtn.onclick = () => {
-                if (conditionCheck()) {
-                    setActive(false); callback(false); fullReset();
-                }
-            };
+            onBtn.onclick = () => { if (!conditionCheck()) { setActive(true); callback(true); fullReset(); } };
+            offBtn.onclick = () => { if (conditionCheck()) { setActive(false); callback(false); fullReset(); } };
         };
 
         bindToggleGroup('pb-master-on', 'pb-master-off', () => isEnabled, (val) => {
@@ -628,7 +611,6 @@
         document.getElementById('pb-modal-close').onclick = () => { overlay.style.display = 'none'; };
         overlay.onmousedown = (e) => { if (e.target === overlay) { overlay.style.display = 'none'; } };
 
-        // --- DRAG LOGIC ---
         let isDragging = false, hasMoved = false;
         let startX, startY, initialX, initialY;
 
@@ -668,97 +650,128 @@
         fab.addEventListener('click', () => { if (!hasMoved) overlay.style.display = 'flex'; });
     }
 
-    // --- DOM CLIMBER & INJECTION LOGIC ---
+    // --- DOM CLIMBER & INJECTION LOGIC (FULLY REWRITTEN TO FIX SCOPE BUG) ---
     function processBookieRows() {
         if (!isOnBookie() || !isEnabled) return;
 
         const rows = document.querySelectorAll('li.bets');
         if (!rows.length) return;
 
-        let lowestOdds = Infinity;
-        let gatheredOdds = [];
-
+        // Group rows by their direct parent (the list container for a specific match)
+        const matchMap = new Map();
+        
         rows.forEach(row => {
-            const oddsNode = row.querySelector('[class*="multiplier"]');
-            if (!oddsNode) return;
-
-            const match = oddsNode.textContent.match(/x\s*(\d+(?:\.\d+)?)/i);
-            if (!match) return;
-
-            const odds = parseFloat(match[1]);
-            if (!isNaN(odds) && odds >= 1.01 && odds < 1000) {
-                if (odds < lowestOdds) {
-                    lowestOdds = odds;
-                }
-                gatheredOdds.push(odds);
+            const parentList = row.parentElement;
+            if (!matchMap.has(parentList)) {
+                matchMap.set(parentList, []);
             }
+            matchMap.get(parentList).push(row);
         });
 
-        // --- Calibration ---
-        let powerProbsMap=new Map();if(powerMethodEnabled&&gatheredOdds.length>1){(function(_0x1a,_0x2b){let _0x3c=_0x1a.map(x=>1/x);if(_0x3c.reduce((a,b)=>a+b,0)>1){let _0x4d=1,_0x5e=25;for(let _0x6f=0;_0x6f<50;_0x6f++){let _0x7a=(_0x4d+_0x5e)/2;_0x3c.reduce((a,b)=>a+Math.pow(b,_0x7a),0)>1?_0x4d=_0x7a:_0x5e=_0x7a;}_0x1a.forEach(x=>_0x2b.set(x,Math.pow(1/x,(_0x4d+_0x5e)/2)*100));}})(gatheredOdds,powerProbsMap);}
+        // Process each match completely independently so the margin is calculated correctly
+        matchMap.forEach((matchRows, parentList) => {
+            let lowestOdds = Infinity;
+            let gatheredOdds = [];
+            let rowData = [];
 
-        rows.forEach(row => {
-            row.querySelectorAll('.pb-inline-prob').forEach(x => x.remove());
+            matchRows.forEach(row => {
+                row.querySelectorAll('.pb-inline-prob').forEach(x => x.remove());
 
-            const oddsNode = row.querySelector('[class*="multiplier"]');
-            const nameNode = row.querySelector('[class*="description"] span');
-            if (!oddsNode || !nameNode) return;
+                const oddsNode = row.querySelector('[class*="multiplier"]');
+                const nameNode = row.querySelector('[class*="description"] span');
+                if (!oddsNode || !nameNode) return;
 
-            const match = oddsNode.textContent.match(/x\s*(\d+(?:\.\d+)?)/i);
-            if (!match) return;
+                const matchMatch = oddsNode.textContent.match(/x\s*(\d+(?:\.\d+)?)/i);
+                if (!matchMatch) return;
 
-            const finalOdds = parseFloat(match[1]);
-            if (isNaN(finalOdds) || finalOdds < 1.01 || finalOdds > 1000) {
-                return;
-            }
+                const finalOdds = parseFloat(matchMatch[1]);
+                if (isNaN(finalOdds) || finalOdds < 1.01 || finalOdds > 1000) return;
 
-            if (favoritesOnly && finalOdds > lowestOdds + 0.02) {
-                return;
-            }
+                if (finalOdds < lowestOdds) {
+                    lowestOdds = finalOdds;
+                }
+                
+                gatheredOdds.push(finalOdds);
+                rowData.push({ row, nameNode, finalOdds });
+            });
 
-            const span = document.createElement('span');
-            span.className = 'pb-inline-prob';
-            let riskBaseText = "";
+            if (rowData.length === 0) return;
 
-            if (finalOdds >= riskThresholds.extreme) {
-                span.classList.add('ext');
-                riskBaseText = t.riskExt;
-            }
-            else if (finalOdds >= riskThresholds.high) {
-                span.classList.add('high');
-                riskBaseText = t.riskHigh;
-            }
-            else if (finalOdds >= riskThresholds.moderate) {
-                span.classList.add('mod');
-                riskBaseText = t.riskMod;
-            }
-            else {
-                riskBaseText = t.riskLow;
-            }
-
-            if (powerMethodEnabled && powerProbsMap.has(finalOdds)) {
-                let prob = powerProbsMap.get(finalOdds);
-                span.textContent = prob.toFixed(1) + '%*';
-                span.title = riskBaseText + suffixDevig;
-            } else {
-                let prob = (1 / finalOdds) * 100;
-                span.textContent = prob.toFixed(1) + '%';
-                span.title = riskBaseText + suffixRaw;
-            }
-
-            if (highlightValue && finalOdds < 1.8) {
-                span.style.fontWeight = '800';
-                span.style.boxShadow = '0 0 0 2px rgba(163,172,185,.6)';
-
-                if (finalOdds < 1.5) {
-                    span.style.background = 'rgba(163,172,185,.15)';
+            // --- Calibration per Match (True-Edge Algorithm) ---
+            let powerProbsArray = [];
+            
+            if (powerMethodEnabled && gatheredOdds.length > 1) {
+                // Convert raw odds to implied probabilities
+                let impliedProbs = gatheredOdds.map(x => 1 / x);
+                
+                // Calculate the bookmaker's overround for THIS match only
+                let overround = impliedProbs.reduce((a, b) => a + b, 0);
+                
+                if (overround > 1) {
+                    // Binary search to find the correct exponent to strip the margin
+                    let low = 1, high = 25;
+                    for (let i = 0; i < 50; i++) {
+                        let mid = (low + high) / 2;
+                        let sum = impliedProbs.reduce((a, b) => a + Math.pow(b, mid), 0);
+                        
+                        if (sum > 1) {
+                            low = mid;
+                        } else {
+                            high = mid;
+                        }
+                    }
+                    
+                    const finalExponent = (low + high) / 2;
+                    powerProbsArray = impliedProbs.map(p => Math.pow(p, finalExponent) * 100);
                 }
             }
 
-            const parent = nameNode.parentElement;
-            parent.style.display = 'inline-flex';
-            parent.style.alignItems = 'center';
-            parent.appendChild(span);
+            // Inject the data back into the UI
+            rowData.forEach((data, index) => {
+                if (favoritesOnly && data.finalOdds > lowestOdds + 0.02) return;
+
+                const span = document.createElement('span');
+                span.className = 'pb-inline-prob';
+                let riskBaseText = "";
+
+                if (data.finalOdds >= riskThresholds.extreme) {
+                    span.classList.add('ext');
+                    riskBaseText = t.riskExt;
+                } else if (data.finalOdds >= riskThresholds.high) {
+                    span.classList.add('high');
+                    riskBaseText = t.riskHigh;
+                } else if (data.finalOdds >= riskThresholds.moderate) {
+                    span.classList.add('mod');
+                    riskBaseText = t.riskMod;
+                } else {
+                    riskBaseText = t.riskLow;
+                }
+
+                // Apply True-Edge if active and successfully calculated
+                if (powerMethodEnabled && powerProbsArray.length > 0 && powerProbsArray[index]) {
+                    let prob = powerProbsArray[index];
+                    span.textContent = prob.toFixed(1) + '%*';
+                    span.title = riskBaseText + suffixDevig;
+                } else {
+                    let prob = (1 / data.finalOdds) * 100;
+                    span.textContent = prob.toFixed(1) + '%';
+                    span.title = riskBaseText + suffixRaw;
+                }
+
+                if (highlightValue && data.finalOdds < 1.8) {
+                    span.style.fontWeight = '800';
+                    span.style.boxShadow = '0 0 0 2px rgba(163,172,185,.6)';
+
+                    if (data.finalOdds < 1.5) {
+                        span.style.background = 'rgba(163,172,185,.15)';
+                    }
+                }
+
+                const parent = data.nameNode.parentElement;
+                parent.style.display = 'inline-flex';
+                parent.style.alignItems = 'center';
+                parent.appendChild(span);
+            });
         });
     }
 
