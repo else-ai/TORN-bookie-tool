@@ -3,7 +3,7 @@
 // @namespace    https://www.torn.com/
 // @version      6.7.5
 // @description  Precision Probability for Torn Bookie. Injects clean implied probabilities next to team names. Draggable UI. Safe on PC & PDA. 100% local.
-// @author       Zemouregal [4038551]
+// @author       ZEM [4038551]
 // @match        https://www.torn.com/*
 // @icon         https://www.torn.com/favicon.ico
 // @license      GPL-3.0-or-later
@@ -17,7 +17,7 @@
 
 /*
  * Precision Probability - Torn Bookie Tool
- * Copyright (c) 2026 Zemouregal [4038551]
+ * Copyright (c) 2026 ZEM [4038551]
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">These are only probabilities. You can still lose money.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Free tool for Torn Bookie</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Built as a hobby project - no subscriptions or donations.</li><li>Converts bookie odds into clean probabilities and risk levels.</li><li>Strictly analytical - does not predict outcomes.</li></ul></div><div class="pb-info-section" style="margin-bottom:0;"><p>Hope it helps you out.</p></div>`,
-            authorBtn: "Author: Zemouregal [4038551]",
+            authorBtn: "Author: ZEM [4038551]",
             riskLow: "Low Risk", riskMod: "Moderate Risk", riskHigh: "High Risk", riskExt: "Extreme Risk",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Raw %"
         },
@@ -85,7 +85,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Estas son solo probabilidades. Aún puedes perder dinero.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Herramienta gratuita</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Proyecto aficionado.</li><li>Estrictamente analítico.</li></ul></div>`,
-            authorBtn: "Autor: Zemouregal [4038551]",
+            authorBtn: "Autor: ZEM [4038551]",
             riskLow: "Riesgo Bajo", riskMod: "Riesgo Moderado", riskHigh: "Riesgo Alto", riskExt: "Riesgo Extremo",
             deviggedSuffix: " • % True-Edge", rawSuffix: " • % Bruto"
         },
@@ -102,7 +102,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Dies sind nur Wahrscheinlichkeiten. Du kannst immer noch verlieren.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Kostenloses Tool</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Hobbyprojekt.</li><li>Streng analytisch.</li></ul></div>`,
-            authorBtn: "Autor: Zemouregal [4038551]",
+            authorBtn: "Autor: ZEM [4038551]",
             riskLow: "Geringes Risiko", riskMod: "Mittleres Risiko", riskHigh: "Hohes Risiko", riskExt: "Extremes Risiko",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Rohe %"
         },
@@ -119,7 +119,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Ce ne sont que des probabilités. Vous pouvez toujours perdre.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Outil gratuit</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Projet amateur.</li><li>Strictement analytique.</li></ul></div>`,
-            authorBtn: "Auteur: Zemouregal [4038551]",
+            authorBtn: "Auteur: ZEM [4038551]",
             riskLow: "Faible", riskMod: "Modéré", riskHigh: "Élevé", riskExt: "Extrême",
             deviggedSuffix: " • % True-Edge", rawSuffix: " • % Brut"
         },
@@ -136,7 +136,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Queste sono solo probabilità. Puoi comunque perdere.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Strumento gratuito</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Progetto amatoriale.</li><li>Strettamente analitico.</li></ul></div>`,
-            authorBtn: "Autore: Zemouregal [4038551]",
+            authorBtn: "Autore: ZEM [4038551]",
             riskLow: "Basso", riskMod: "Moderato", riskHigh: "Alto", riskExt: "Estremo",
             deviggedSuffix: " • % True-Edge", rawSuffix: " • % Grezzo"
         },
@@ -153,7 +153,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">To tylko prawdopodobieństwa. Nadal możesz stracić pieniądze.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Darmowe narzędzie</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Projekt hobbystyczny.</li><li>Ściśle analityczne.</li></ul></div>`,
-            authorBtn: "Autor: Zemouregal [4038551]",
+            authorBtn: "Autor: ZEM [4038551]",
             riskLow: "Niskie", riskMod: "Umiarkowane", riskHigh: "Wysokie", riskExt: "Ekstremalne",
             deviggedSuffix: " • % True-Edge", rawSuffix: " • % Surowe"
         },
@@ -170,7 +170,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Dit zijn slechts kansen. Je kunt nog steeds verliezen.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Gratis tool</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Hobbyproject.</li><li>Strikt analytisch.</li></ul></div>`,
-            authorBtn: "Auteur: Zemouregal [4038551]",
+            authorBtn: "Auteur: ZEM [4038551]",
             riskLow: "Laag", riskMod: "Matig", riskHigh: "Hoog", riskExt: "Extreem",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Ruwe %"
         },
@@ -187,7 +187,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Detta är endast sannolikheter. Du kan fortfarande förlora.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Gratis verktyg</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Hobbyprojekt.</li><li>Strikt analytiskt.</li></ul></div>`,
-            authorBtn: "Författare: Zemouregal [4038551]",
+            authorBtn: "Författare: ZEM [4038551]",
             riskLow: "Låg", riskMod: "Måttlig", riskHigh: "Hög", riskExt: "Extrem",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Råa %"
         },
@@ -204,7 +204,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Dette er kun sandsynligheder. Du kan stadig tabe.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Gratis værktøj</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Hobbyprojekt.</li><li>Strengt analytisk.</li></ul></div>`,
-            authorBtn: "Forfatter: Zemouregal [4038551]",
+            authorBtn: "Forfatter: ZEM [4038551]",
             riskLow: "Lav", riskMod: "Moderat", riskHigh: "Høj", riskExt: "Ekstrem",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Rå %"
         },
@@ -221,7 +221,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Dette er bare sannsynligheter. Du kan fortsatt tape penger.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Gratis verktøy</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Hobbyprosjekt.</li><li>Strengt analytisk.</li></ul></div>`,
-            authorBtn: "Forfatter: Zemouregal [4038551]",
+            authorBtn: "Forfatter: ZEM [4038551]",
             riskLow: "Lav", riskMod: "Moderat", riskHigh: "Høy", riskExt: "Ekstrem",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Rå %"
         },
@@ -238,7 +238,7 @@
                 <span style="color: #ffb3b3; font-weight: 600;">Nämä ovat vain todennäköisyyksiä. Voit silti hävitä.</span>
             </div>`,
             devDesc: `<div class="pb-info-section" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px;"><span style="font-weight: 800; font-size: 15px; color: var(--pb-accent);">Ilmainen työkalu</span></div><div class="pb-info-section"><ul style="list-style-type: disc;"><li>Harrasteprojekti.</li><li>Tiukasti analyyttinen.</li></ul></div>`,
-            authorBtn: "Tekijä: Zemouregal [4038551]",
+            authorBtn: "Tekijä: ZEM [4038551]",
             riskLow: "Pieni", riskMod: "Kohtalainen", riskHigh: "Suuri", riskExt: "Äärimmäinen",
             deviggedSuffix: " • True-Edge %", rawSuffix: " • Raaka %"
         }
